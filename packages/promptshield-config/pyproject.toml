@@ -1,0 +1,20 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "promptshield-config"
+version = "0.1.0"
+description = "PromptShield configuration loader - YAML config loading with Pydantic validation"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["promptshield_config"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"promptshield_config/defaults" = "promptshield_config/defaults"

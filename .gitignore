@@ -205,3 +205,43 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# Node / Frontend
+node_modules/
+apps/promptshield-enterprise-ui/dist/
+apps/promptshield-enterprise-ui/.vite/
+.npm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Docker
+.dockerignore
+
+# Alembic generated versions (keep .gitkeep)
+apps/promptshield-enterprise-api/alembic/versions/*.py
+!apps/promptshield-enterprise-api/alembic/versions/.gitkeep
+
+# Secrets
+*.pem
+*.key
+*.p12
+*.pfx
+secrets/
+
+# Local PromptShield data
+.promptshield/

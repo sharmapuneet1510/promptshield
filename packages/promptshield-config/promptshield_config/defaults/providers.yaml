@@ -1,0 +1,34 @@
+models:
+  gpt-4o:
+    input_per_1k_usd: 0.005
+    output_per_1k_usd: 0.015
+  gpt-4o-mini:
+    input_per_1k_usd: 0.00015
+    output_per_1k_usd: 0.0006
+  gpt-4-turbo:
+    input_per_1k_usd: 0.01
+    output_per_1k_usd: 0.03
+  gpt-3.5-turbo:
+    input_per_1k_usd: 0.0005
+    output_per_1k_usd: 0.0015
+  o1:
+    input_per_1k_usd: 0.015
+    output_per_1k_usd: 0.060
+  o3-mini:
+    input_per_1k_usd: 0.0011
+    output_per_1k_usd: 0.0044
+  claude-opus-4:
+    input_per_1k_usd: 0.015
+    output_per_1k_usd: 0.075
+  claude-sonnet-4:
+    input_per_1k_usd: 0.003
+    output_per_1k_usd: 0.015
+  claude-haiku-4:
+    input_per_1k_usd: 0.00025
+    output_per_1k_usd: 0.00125
+  ollama/llama3:
+    input_per_1k_usd: 0.0
+    output_per_1k_usd: 0.0
+  ollama/mistral:
+    input_per_1k_usd: 0.0
+    output_per_1k_usd: 0.0

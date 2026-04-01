@@ -1,0 +1,9 @@
+messages:
+  oversized_prompt: "Your prompt is too large ({tokens} tokens). Consider splitting it into smaller requests."
+  search_like_prompt: "This looks like a general knowledge query. Consider using web search instead of a premium model."
+  cost_threshold: "Estimated cost (${cost:.4f}) exceeds your configured limit of ${limit:.4f}."
+  daily_limit: "You have reached your daily request limit."
+  daily_spend: "You have reached your daily spend limit."
+  approaching_token_limit: "Your prompt is {pct:.0%} of the maximum allowed size."
+  approaching_cost_limit: "Estimated cost is {pct:.0%} of your configured limit."
+  blocked_model: "The model '{model}' is not permitted by policy."

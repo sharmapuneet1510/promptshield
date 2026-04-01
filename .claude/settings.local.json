@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p /Users/puneetsharma/Workspace/projects/ai-lab/aether-guard/packages/promptshield-core/promptshield_core/contracts)",
+      "Bash(mkdir -p /Users/puneetsharma/Workspace/projects/ai-lab/aether-guard/packages/promptshield-core/promptshield_core/utils)",
+      "Bash(mkdir -p /Users/puneetsharma/Workspace/projects/ai-lab/aether-guard/packages/promptshield-core/tests)",
+      "Bash(mkdir -p /Users/puneetsharma/Workspace/projects/ai-lab/aether-guard/packages/promptshield-config/promptshield_config/defaults)",
+      "Bash(mkdir -p /Users/puneetsharma/Workspace/projects/ai-lab/aether-guard/apps/promptshield-lite/promptshield_lite/cli)",
+      "Bash(/Users/puneetsharma/Workspace/projects/ai-lab/aether-guard/deploy/compose/.env.example:*)"
+    ]
+  }
+}

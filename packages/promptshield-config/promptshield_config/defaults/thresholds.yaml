@@ -1,0 +1,6 @@
+max_input_tokens: 16000
+max_cost_usd: 0.50
+max_daily_requests: 500
+max_daily_spend_usd: 10.00
+warn_at_token_pct: 0.75
+warn_at_cost_pct: 0.80

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "promptshield-lite"
+version = "0.1.0"
+description = "PromptShield Lite - local CLI for prompt governance"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "promptshield-core",
+    "promptshield-config",
+    "typer>=0.12",
+    "rich>=13",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+promptshield = "promptshield_lite.main:app"
+
+[tool.hatch.build.targets.wheel]
+packages = ["promptshield_lite"]

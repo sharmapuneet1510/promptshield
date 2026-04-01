@@ -1,0 +1,6 @@
+warn_on_search_like: true
+block_oversized: true
+reroute_search_to_web: true
+cheaper_model_fallback: "gpt-4o-mini"
+local_model_fallback: null
+blocked_models: []
