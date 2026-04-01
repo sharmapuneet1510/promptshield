@@ -1,0 +1,129 @@
+name: Publish to PyPI & GitHub Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write  # needed to create GitHub releases
+  id-token: write  # needed for PyPI trusted publishing (OIDC)
+
+jobs:
+  # ------------------------------------------------------------------
+  # Build all publishable packages
+  # ------------------------------------------------------------------
+  build:
+    name: Build packages
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install build dependencies
+        run: uv tool install hatch
+
+      - name: Build promptshield-core
+        working-directory: packages/promptshield-core
+        run: uv build --no-sources
+
+      - name: Build promptshield-config
+        working-directory: packages/promptshield-config
+        run: uv build --no-sources
+
+      - name: Build promptshield-sdk
+        working-directory: packages/promptshield-sdk
+        run: uv build --no-sources
+
+      - name: Build promptshield-lite
+        working-directory: apps/promptshield-lite
+        run: uv build --no-sources
+
+      - name: Collect dist artifacts
+        run: |
+          mkdir -p dist-all
+          cp packages/promptshield-core/dist/*    dist-all/
+          cp packages/promptshield-config/dist/*  dist-all/
+          cp packages/promptshield-sdk/dist/*     dist-all/
+          cp apps/promptshield-lite/dist/*        dist-all/
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist-all/
+
+  # ------------------------------------------------------------------
+  # Publish to PyPI via trusted publishing (no token needed)
+  # ------------------------------------------------------------------
+  publish-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/promptshield-lite
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist-all/
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist-all/
+
+  # ------------------------------------------------------------------
+  # Create GitHub Release with built wheels + sdists attached
+  # ------------------------------------------------------------------
+  github-release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist-all/
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: "PromptShield ${{ github.ref_name }}"
+          body: |
+            ## PromptShield ${{ github.ref_name }}
+
+            ### Packages published to PyPI
+            - [`promptshield-lite`](https://pypi.org/p/promptshield-lite) — CLI for local prompt governance
+            - [`promptshield-core`](https://pypi.org/p/promptshield-core) — Shared engine (classifier, policy, token estimator)
+            - [`promptshield-config`](https://pypi.org/p/promptshield-config) — Config loader and validators
+            - [`promptshield-sdk`](https://pypi.org/p/promptshield-sdk) — Python SDK for the Enterprise API
+
+            ### Install
+            ```bash
+            pip install promptshield-lite==${{ steps.version.outputs.VERSION }}
+            # or with uv:
+            uv tool install promptshield-lite==${{ steps.version.outputs.VERSION }}
+            ```
+
+            ### Claude Code hook integration
+            See [docs/integration/claude-code-hook.md](docs/integration/claude-code-hook.md) for automatic setup.
+          files: dist-all/*
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}
