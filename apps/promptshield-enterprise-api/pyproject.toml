@@ -35,5 +35,9 @@ dev = [
     "aiosqlite>=0.20",
 ]
 
+[tool.uv.sources]
+promptshield-core = { workspace = true }
+promptshield-config = { workspace = true }
+
 [tool.hatch.build.targets.wheel]
 packages = ["promptshield_enterprise"]

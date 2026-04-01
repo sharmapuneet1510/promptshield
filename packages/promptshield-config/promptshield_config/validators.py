@@ -4,13 +4,13 @@ Pydantic v2 configuration models for PromptShield.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, Field, field_validator, model_config
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class ThresholdsConfig(BaseModel):
     """Token and cost threshold configuration."""
 
-    model_config = model_config(frozen=False)
+    model_config = ConfigDict(frozen=False)
 
     max_input_tokens: int = Field(
         default=16000,
@@ -49,7 +49,7 @@ class ThresholdsConfig(BaseModel):
 class RoutingConfig(BaseModel):
     """Routing and rerouting configuration."""
 
-    model_config = model_config(frozen=False)
+    model_config = ConfigDict(frozen=False)
 
     warn_on_search_like: bool = Field(
         default=True,
@@ -87,7 +87,7 @@ class RoutingConfig(BaseModel):
 class ExceptionsConfig(BaseModel):
     """Message template configuration."""
 
-    model_config = model_config(frozen=False)
+    model_config = ConfigDict(frozen=False)
 
     messages: dict[str, str] = Field(
         default_factory=dict,
@@ -98,7 +98,7 @@ class ExceptionsConfig(BaseModel):
 class ModelPricing(BaseModel):
     """Per-model pricing configuration."""
 
-    model_config = model_config(frozen=False)
+    model_config = ConfigDict(frozen=False)
 
     input_per_1k_usd: float = Field(
         default=0.0,
@@ -115,7 +115,7 @@ class ModelPricing(BaseModel):
 class ProvidersConfig(BaseModel):
     """Provider and model pricing configuration."""
 
-    model_config = model_config(frozen=False)
+    model_config = ConfigDict(frozen=False)
 
     models: dict[str, ModelPricing] = Field(
         default_factory=dict,
@@ -130,7 +130,7 @@ class ProvidersConfig(BaseModel):
 class FullConfig(BaseModel):
     """Aggregated configuration combining all config sections."""
 
-    model_config = model_config(frozen=False)
+    model_config = ConfigDict(frozen=False)
 
     thresholds: ThresholdsConfig = Field(default_factory=ThresholdsConfig)
     routing: RoutingConfig = Field(default_factory=RoutingConfig)

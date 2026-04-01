@@ -19,5 +19,9 @@ dependencies = [
 [project.scripts]
 promptshield = "promptshield_lite.main:app"
 
+[tool.uv.sources]
+promptshield-core = { workspace = true }
+promptshield-config = { workspace = true }
+
 [tool.hatch.build.targets.wheel]
 packages = ["promptshield_lite"]

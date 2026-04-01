@@ -85,8 +85,10 @@ def precheck_cmd(
     response = engine.run(request)
 
     if json_output:
-        import json
-        console.print(response.model_dump_json(indent=2))
+        # Use sys.stdout directly — Rich's console.print() reflows long strings
+        import sys
+        sys.stdout.write(response.model_dump_json(indent=2) + "\n")
+        sys.stdout.flush()
     else:
         from promptshield_lite.output.formatter import format_decision
         panel = format_decision(response)

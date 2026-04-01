@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime
 from uuid import UUID
 
-from pydantic import BaseModel, Field, model_config
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class DecisionResult(BaseModel):
@@ -16,7 +16,7 @@ class DecisionResult(BaseModel):
     Returned by PromptShieldClient.precheck() and precheck_sync().
     """
 
-    model_config = model_config(frozen=True)
+    model_config = ConfigDict(frozen=True)
 
     request_id: UUID
     decision: str
@@ -53,7 +53,7 @@ class ProxyResult(BaseModel):
     Returned by PromptShieldClient.proxy() and proxy_sync().
     """
 
-    model_config = model_config(frozen=True)
+    model_config = ConfigDict(frozen=True)
 
     decision: DecisionResult
     content: str | None = None

@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 from typing import Any
 from uuid import UUID, uuid4
 
-from pydantic import BaseModel, Field, field_validator, model_config
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class PromptRequest(BaseModel):
@@ -19,7 +19,7 @@ class PromptRequest(BaseModel):
     is shared between Lite and Enterprise editions.
     """
 
-    model_config = model_config(
+    model_config = ConfigDict(
         frozen=False,
         populate_by_name=True,
         str_strip_whitespace=True,

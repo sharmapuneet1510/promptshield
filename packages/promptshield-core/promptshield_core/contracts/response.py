@@ -7,7 +7,7 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from uuid import UUID
 
-from pydantic import BaseModel, Field, field_validator, model_config
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from promptshield_core.enums import Decision, PromptCategory, RouteTarget
 
@@ -20,7 +20,7 @@ class PromptDecisionResponse(BaseModel):
     classifications, policy rules that fired, and routing suggestions.
     """
 
-    model_config = model_config(frozen=True)
+    model_config = ConfigDict(frozen=True)
 
     request_id: UUID = Field(
         ...,

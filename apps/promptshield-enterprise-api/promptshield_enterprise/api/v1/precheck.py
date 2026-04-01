@@ -20,6 +20,7 @@ from promptshield_core.utils.hashing import hash_prompt
 from promptshield_core.utils.redaction import redact_prompt
 from promptshield_enterprise.api.middleware.auth import require_api_key
 from promptshield_enterprise.services.quota_service import QuotaService
+from promptshield_enterprise.services.user_profile_service import UserProfileService
 from promptshield_enterprise.settings import get_settings
 from promptshield_enterprise.storage.database import get_db
 from promptshield_enterprise.storage.models import PromptRecord
@@ -131,6 +132,18 @@ async def precheck(
         )
         repo = PromptRepository(db)
         await repo.save(record)
+
+        # Update the user's behavioral profile asynchronously after the record
+        # is saved. Failures here must not affect the precheck response.
+        try:
+            profile_svc = UserProfileService(db)
+            await profile_svc.update_profile(record)
+        except Exception as profile_err:
+            logger.error(
+                "Failed to update behavioral profile for user %s: %s",
+                request.user_id,
+                profile_err,
+            )
     except Exception as e:
         logger.error("Failed to persist precheck record: %s", e)
         # Don't fail the response because of storage issues
